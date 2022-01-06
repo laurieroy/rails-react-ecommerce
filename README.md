@@ -1,24 +1,3 @@
-# README
+# O-sale, a Rails e-commerce site with React frontend
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+This course was initially built as a [code-along](https://www.udemy.com/course/developing-single-page-applications) from Emmanuel Asante, Jan 2022.
