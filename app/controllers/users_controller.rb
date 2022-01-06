@@ -12,6 +12,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      cookies.signed[:user_id] = @user.id
       flash[:notice] = "Signed up successfully"
       redirect_to root_path
     else
