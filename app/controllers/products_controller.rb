@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
 	before_action :set_product, except: %i[index new create]
-	
+
 	def index
 		@products = Product.all
 	end
@@ -38,6 +38,10 @@ class ProductsController < ApplicationController
 	end
 
 	def set_product
-		@product = Product.find(params[:id])
+		begin
+			@product = Product.find(params[:id])
+		rescue ActiveRecord::RecordNotFound
+			redirect_to root_path
+		end
 	end
 end
