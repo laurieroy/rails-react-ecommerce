@@ -8,4 +8,8 @@ class Product < ApplicationRecord
 		only_integer: true,
 		greater_than_or_equal_to:  0
 	}
+
+	def owned_by?(owner)
+		user == owner
+	end
 end

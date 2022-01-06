@@ -18,7 +18,7 @@
         <%= @product.description %>
       </div>
 
-      <% if current_user%>
+      <% if current_user && @product.owned_by?(current_user) %>
         <div class="float-right btn-edit-del">
           <%= 
             link_to "Delete", 
