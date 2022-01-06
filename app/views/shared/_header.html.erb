@@ -12,9 +12,11 @@
 					Home
 				<% end %>
 			</li>
-			<li class="nav-item">
-				<%= link_to "New Product", new_product_path, class: "nav-link" %>
-			</li>
+			<% if current_user %>
+				<li class="nav-item">
+					<%= link_to "New Product", new_product_path, class: "nav-link" %>
+				</li>
+			<% end %>
 			<% unless current_user %>
 				<li class="nav-item">
 					<%= link_to "Sign In", signin_path, class:"nav-link" %>

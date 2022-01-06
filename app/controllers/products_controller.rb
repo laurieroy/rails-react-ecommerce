@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
 	before_action :set_product, except: %i[index new create]
+	before_action :require_signin, except: %i[index show]
 
 	def index
 		@products = Product.all
