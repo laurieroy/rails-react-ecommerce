@@ -19,15 +19,15 @@ class ProductList extends React.Component {
 	loadProductsFromServer() {
 		axios.get('/api/v1/products/json')
 		.then(response => {
-			const products = response.data.products
+			const { products } = response.data
 			this.setState({products})
 		})
 		.catch(error => console.log(error.response.data))
 	}
 
 	render () {
-		const products = ["Product1", "Product2", "Product3"];
-		const productList = products.map((product) => <Product key={product} />);
+		const { products } = this.state;
+		const productList = products.map((product) => <Product key={ product.id } />);
 		
 		return (
 			<div className="container">
