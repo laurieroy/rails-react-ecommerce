@@ -17,3 +17,10 @@ User is roll-your-own
 
 
 This course was initially built as a [code-along](https://www.udemy.com/course/developing-single-page-applications) from Emmanuel Asante, Jan 2022.
+
+<!-- 			<ProductList /> -->
+
+Gems Used: 
+-axios
+-bcrypt
+-foreman
