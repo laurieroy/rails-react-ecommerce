@@ -2,13 +2,10 @@ import React from "react";
 import axios from "axios";
 
 class ProductDetail extends React.Component {
-  constructor(props) {
-    super(props);
+	state = {
+		product: {},
+	};
 
-    this.state = {
-      product: {},
-    };
-  }
 
   componentDidMount() {
     const id = this.props.match.params.id;
