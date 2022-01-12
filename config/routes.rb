@@ -6,12 +6,12 @@ Rails.application.routes.draw do
       end
 
       resources :users, only: [:create]
-      post 'signin',    to: "sessions#create"
-      delete 'signout', to: "sessions#destroy", as: "session"
+      post '/signin',    to: "sessions#create"
+      delete '/signout', to: "sessions#destroy", as: "session"
     end
   end
 
-  get "#path, to: "api/v1/products#index"
+  get "#path", to: "api/v1/products#index"
 
   # get 'users/new',  to: "users#new", as: "new_user"
   # get 'signup',     to: "users#new"
