@@ -19,7 +19,7 @@ class ProductList extends React.Component {
 
   loadProductsFromServer() {
     axios
-      .get("/api/v1/products/json")
+      .get("/api/v1/products.json")
       .then((response) => {
         const { products } = response.data;
         this.setState({ products });
