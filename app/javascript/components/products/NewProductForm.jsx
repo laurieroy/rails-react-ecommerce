@@ -138,4 +138,7 @@ class NewProductForm extends Component {
   }
 }
 
+NewProductForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired
+}
 export default NewProductForm;
