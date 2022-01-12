@@ -1,30 +1,38 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-class NewProductForm extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      name: "",
-      description: "",
-      price: "",
-      quantity: "",
-      errors: {},
-		};
+class NewProductForm extends Component {
+	state = {
+		name: "",
+		description: "",
+		price: "",
+		quantity: "",
+		errors: {}
+	};
 		
-		this.handleSubmit = this.handleSubmit.bind(this)
-		this.handleChange = this.handleChange.bind(this)
+  handleSubmit = (e) => {
+		e.preventDefault();
+
+		const { name, description, price, quantity} = this.state
+
+		const newProduct = {
+			name,
+			description,
+			price,
+			quantity
+		}
+
+		this.props.onSubmit(newProduct)
+		this.setState({
+			name: "",
+			description: "",
+			price: "",
+			quantity: "",
+		})
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    console.log("Handling submit");
-    console.log(this.state);
-  }
-
-	handleChange(e) {		 
-		this.setState({[e.target.name]: e.target.value })
+	handleChange = (e) => {		 
+		this.setState({ [e.target.name]: e.target.value })
 	}
 
   render() {
@@ -41,7 +49,7 @@ class NewProductForm extends React.Component {
               </h1>
 
               <div className="form-body-style px-5 pt-4">
-                <form className="form-horizontal" onSubmit={this.handleSubmit}>
+                <form className="form-horizontal" onSubmit={this.handleSubmit} >
                   <div className="form-group row">
                     <label htmlFor="name" className="col-md-3 col-form-label">
                       Name

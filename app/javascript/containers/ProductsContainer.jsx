@@ -1,23 +1,24 @@
 import React from "react";
 import axios from "axios";
 
-import Product from "../components/products/Product";
 import Jumbotron from "../components/products/Jumbotron";
+import Product from "../components/products/Product";
+import NewProductForm from "../components/products/NewProductForm";
 
 class ProductList extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    products: [],
+  };
 
-    this.state = {
-      products: [],
-    };
-  }
-
-  componentDidMount() {
+  componentDidMount = () => {
     this.loadProductsFromServer();
-  }
+  };
 
-  loadProductsFromServer() {
+  handleProductSubmit = (data) => {
+    console.log(data);
+  };
+
+  loadProductsFromServer = () => {
     axios
       .get("/api/v1/products.json")
       .then((response) => {
@@ -25,7 +26,7 @@ class ProductList extends React.Component {
         this.setState({ products });
       })
       .catch((error) => console.log(error.response.data));
-  }
+  };
 
   render() {
     const { products } = this.state;
@@ -36,6 +37,7 @@ class ProductList extends React.Component {
     return (
       <>
         <Jumbotron />
+        <NewProductForm onSubmit={this.handleProductSubmit} />
         <div className="container">
           <div className="row">
             <div className="col-md-12 mb-2">
