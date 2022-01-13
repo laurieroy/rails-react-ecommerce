@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
 	before_action :set_product, except: %i[index new create]
-	before_action :require_signin, except: %i[index show]
-	before_action :require_owner, only: %i[edit update destroy]
+	# before_action :require_signin, except: %i[index show]
+	# before_action :require_owner, only: %i[edit update destroy]
 
 	def index
 		@products = Product.all
@@ -18,14 +18,17 @@ class ProductsController < ApplicationController
 
 	def create
 		@product = Product.new(product_params)
-		@product.user = current_user
+		@product.user_id = 1
+		# @product.user = current_user
 
-		if @product.save
-			flash[:notice] = "Product has been saved"
-			redirect_to root_path
-		else
-			flash.now[:alert] = "Product has not been saved"
-			render :new
+		unless @product.save
+			render json: @product.errors.full_messages, status: :unprocessable_entity
+
+		# 	flash[:notice] = "Product has been saved"
+		# 	redirect_to root_path
+		# else
+		# 	flash.now[:alert] = "Product has not been saved"
+		# 	render :new
 		end
 	end
 
