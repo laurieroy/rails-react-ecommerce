@@ -12,6 +12,18 @@ class NewProductForm extends Component {
     errors: {},
   };
 
+  componentDidUpdate() {
+    if (this.props.saved) {
+      this.setState({
+        name: "",
+        description: "",
+        price: "",
+        quantity: "",
+      });
+      this.props.onResetSaved()
+    }
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
 
@@ -25,13 +37,7 @@ class NewProductForm extends Component {
     };
 
     this.props.onSubmit(newProduct);
-    
-    this.setState({
-      name: "",
-      description: "",
-      price: "",
-      quantity: "",
-    });
+
   };
 
   handleChange = (e) => {
