@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
+import { inputClasses } from "../../shared/helpers";
+
 class NewProductForm extends Component {
   state = {
     name: "",
@@ -11,14 +13,13 @@ class NewProductForm extends Component {
   };
 
   handleBlur = (e) => {
-    const {name} = e.target
-    const fieldError = this.checkErrors(this.state, name)
-    // const errors = Object.assign({}, this.state.errors, fieldError)
-    const errors = [...this.state.errors, fieldError]
+    const { name } = e.target;
+    const fieldError = this.checkErrors(this.state, name);
+    const errors = Object.assign({}, this.state.errors, fieldError)
+    // const errors = [...this.state.errors, fieldError];
 
-    this.setState({errors})
-
-  }
+    this.setState({ errors });
+  };
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -45,41 +46,43 @@ class NewProductForm extends Component {
     });
   };
 
-  checkErrors = (state, fieldNames) => {
-    const error = {}
+  checkErrors = (state, fieldName) => {
+    const error = {};
 
     switch (fieldName) {
-      case 'name':
+      case "name":
         if (!state.name) {
-          error.name = "Please provide a name"
+          error.name = "Please provide a name";
         }
         break;
 
-      case 'description':
+      case "description":
         if (!state.description) {
-          error.description = "Please provide a description"
+          error.description = "Please provide a description";
         }
         break;
 
-      case 'price':
-        if (parseFloat(state.price) <= 0.0 || 
+      case "price":
+        if (
+          parseFloat(state.price) <= 0.0 ||
           !state.price.toString().match(/^\d{1,}(\.\d{0,2})?$/)
-          ) {
-          error.price = "Price has to be a postiive number"
+        ) {
+          error.price = "Price has to be a postiive number";
         }
         break;
 
-      case 'quantity':
-        if (parseInt(state.quantity) <= 0 || 
+      case "quantity":
+        if (
+          parseInt(state.quantity) <= 0 ||
           !state.quantity.toString().match(/^\d{1,}$/)
-          ) {
-          error.quantity = "Quantity has to be a postiive integer"
+        ) {
+          error.quantity = "Quantity has to be a postiive integer";
         }
         break;
     }
 
-    return error
-  }
+    return error;
+  };
 
   render() {
     const buttonText = "Create Product";
@@ -106,12 +109,17 @@ class NewProductForm extends Component {
                         name="name"
                         value={this.state.name}
                         onChange={this.handleChange}
-                        onBlur={this.handleblur}
+                        onBlur={this.handleBlur}
                         id="name"
-                        className="form-control"
+                        className={inputClasses("name", this.state)}
                         placeholder="Item name"
                         autoFocus={true}
                       />
+                      {this.state.errors.name ? (
+                        <div className="invalid-feedback">
+                          {this.state.errors.name}
+                        </div>
+                      ) : null}
                     </div>
                   </div>
 
@@ -127,9 +135,14 @@ class NewProductForm extends Component {
                         onChange={this.handleChange}
                         onBlur={this.handleBlur}
                         id="price"
-                        className="form-control"
+                        className={inputClasses("price", this.state)}
                         placeholder="Item price"
                       />
+                      {this.state.errors.price ? (
+                        <div className="invalid-feedback">
+                          {this.state.errors.price}
+                        </div>
+                      ) : null}
                     </div>
                   </div>
 
@@ -147,10 +160,15 @@ class NewProductForm extends Component {
                         onChange={this.handleChange}
                         onBlur={this.handleblur}
                         id="description"
-                        className="form-control"
+                        className={inputClasses("description", this.state)}
                         placeholder="Item description here"
                         rows="5"
                       ></textarea>
+                      {this.state.errors.description ? (
+                        <div className="invalid-feedback">
+                          {this.state.errors.description}
+                        </div>
+                      ) : null}
                     </div>
                   </div>
 
@@ -169,9 +187,14 @@ class NewProductForm extends Component {
                         onChange={this.handleChange}
                         onBlur={this.handleblur}
                         id="quantity"
-                        className="form-control"
+                        className={inputClasses("quantity", this.state)}
                         placeholder="Item quantity"
                       />
+                      {this.state.errors.quantity ? (
+                        <div className="invalid-feedback">
+                          {this.state.errors.quantity}
+                        </div>
+                      ) : null}
                     </div>
                   </div>
 
