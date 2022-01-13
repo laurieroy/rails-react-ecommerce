@@ -35,6 +35,42 @@ class NewProductForm extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  checkErrors = (state, fieldNames) => {
+    const error = {}
+
+    switch (fieldName) {
+      case 'name':
+        if (!state.name) {
+          error.name = "Please provide a name"
+        }
+        break;
+
+      case 'description':
+        if (!state.description) {
+          error.description = "Please provide a description"
+        }
+        break;
+
+      case 'price':
+        if (parseFloat(state.price) <= 0.0 || 
+          !state.price.toString().match(/^\d{1,}(\.\d{0,2})?$/)
+          ) {
+          error.price = "Price has to be a postiive number"
+        }
+        break;
+
+      case 'quantity':
+        if (parseInt(state.quantity) <= 0 || 
+          !state.quantity.toString().match(/^\d{1,}$/)
+          ) {
+          error.quantity = "Quantity has to be a postiive integer"
+        }
+        break;
+    }
+
+    return error
+  }
+
   render() {
     const buttonText = "Create Product";
     const title = "Add New Product";
