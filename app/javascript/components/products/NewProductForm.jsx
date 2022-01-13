@@ -43,18 +43,23 @@ class NewProductForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { name, description, price, quantity } = this.state;
+    const fieldNames = ["name", "description", "price", "quantity"]
 
-    const newProduct = {
-      name,
-      description,
-      price,
-      quantity,
-    };
+    this.verifyAndSetFieldErrors(fieldNames)
 
-    this.props.onSubmit(newProduct);
+    if (Object.keys(this.state.errors).length === 0){
+      const { name, description, price, quantity } = this.state;
 
-  };
+      const newProduct = {
+        name,
+        description,
+        price,
+        quantity,
+      };
+  
+      this.props.onSubmit(newProduct);
+    }
+  }
 
   checkErrors = (state, fieldName) => {
     const error = {};
@@ -123,6 +128,19 @@ class NewProductForm extends Component {
     this.setState({ errors });
   };
 
+  verifyAndSetFieldErrors = (fieldNames) => {
+    let errors = {}
+
+    fieldNames.forEach(fieldName => {
+      const fieldError = this.checkErrors(this.state, fieldName)
+
+      errors = { ...errors, ...fieldError }
+    })
+
+    if (Object.keys(errors).length > 0) {
+      this.setState({ errors})
+    }
+  }
 
   render() {
     const buttonText = "Create Product";

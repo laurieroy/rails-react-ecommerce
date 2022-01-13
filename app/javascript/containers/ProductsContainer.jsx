@@ -76,8 +76,6 @@ class ProductList extends React.Component {
       <Product key={product.id} product={product} />
     ));
 
-
-
     return (
       <>
         <Jumbotron />
