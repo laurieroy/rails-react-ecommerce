@@ -10,6 +10,20 @@ class NewProductForm extends Component {
     errors: {},
   };
 
+  handleBlur = (e) => {
+    const {name} = e.target
+    const fieldError = this.checkErrors(this.state, name)
+    // const errors = Object.assign({}, this.state.errors, fieldError)
+    const errors = [...this.state.errors, fieldError]
+
+    this.setState({errors})
+
+  }
+
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
   handleSubmit = (e) => {
     e.preventDefault();
 
@@ -29,10 +43,6 @@ class NewProductForm extends Component {
       price: "",
       quantity: "",
     });
-  };
-
-  handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
   };
 
   checkErrors = (state, fieldNames) => {
@@ -96,6 +106,7 @@ class NewProductForm extends Component {
                         name="name"
                         value={this.state.name}
                         onChange={this.handleChange}
+                        onBlur={this.handleblur}
                         id="name"
                         className="form-control"
                         placeholder="Item name"
@@ -114,6 +125,7 @@ class NewProductForm extends Component {
                         name="price"
                         value={this.state.price}
                         onChange={this.handleChange}
+                        onBlur={this.handleBlur}
                         id="price"
                         className="form-control"
                         placeholder="Item price"
@@ -133,6 +145,7 @@ class NewProductForm extends Component {
                         name="description"
                         value={this.state.description}
                         onChange={this.handleChange}
+                        onBlur={this.handleblur}
                         id="description"
                         className="form-control"
                         placeholder="Item description here"
@@ -154,6 +167,7 @@ class NewProductForm extends Component {
                         name="quantity"
                         value={this.state.quantity}
                         onChange={this.handleChange}
+                        onBlur={this.handleblur}
                         id="quantity"
                         className="form-control"
                         placeholder="Item quantity"
