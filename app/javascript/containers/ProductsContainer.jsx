@@ -18,7 +18,7 @@ class ProductList extends React.Component {
 
   shouldComponentUpdate = (nextProps, nextState) => {
     if (this.state.serverErrors.length !== nextState.serverErrors.length) {
-      return;
+      return true;
     }
     return false;
   };
@@ -40,7 +40,7 @@ class ProductList extends React.Component {
       })
       .catch((error) => {
         const msgs = error.response.data;
-        const currentErrors = [...this.state.serverErrors];
+        let currentErrors = [...this.state.serverErrors];
 
         msgs.forEach((msg) => {
           if (!currentErrors.includes(msg)) {
@@ -75,7 +75,9 @@ class ProductList extends React.Component {
     const productList = products.map((product) => (
       <Product key={product.id} product={product} />
     ));
-   
+
+
+
     return (
       <>
         <Jumbotron />
