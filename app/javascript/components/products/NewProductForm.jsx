@@ -8,6 +8,9 @@ class NewProductForm extends Component {
     price: "",
     quantity: "",
     errors: {},
+    serverErrors: [],
+    saved: false,
+    onResetSaved:
   };
 
   handleSubmit = (e) => {
@@ -160,5 +163,8 @@ class NewProductForm extends Component {
 
 NewProductForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
+  serverErrors: PropTypes.array.isRequired,
+  saved: PropTypes.bool.isRequired,
+  onResetSaved: PropTypes.func.isRequired
 };
 export default NewProductForm;

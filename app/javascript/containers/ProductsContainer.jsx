@@ -8,6 +8,8 @@ import NewProductForm from "../components/products/NewProductForm";
 class ProductList extends React.Component {
   state = {
     products: [],
+    serverErrors: [],
+    saved: false,
   };
 
   componentDidMount = () => {
@@ -16,15 +18,24 @@ class ProductList extends React.Component {
 
   handleProductSubmit = (data) => {
     const newProduct = {
-      product: { ...data }
-    }
-    axios.post(`/api/v1/products.json`, newProduct)
-    .then(response => {
-      const newProducts = [...this.state.products, response.data.product]
+      product: { ...data },
+    };
+    axios
+      .post(`/api/v1/products.json`, newProduct)
+      .then((response) => {
+        const newProducts = [...this.state.products, response.data.product];
 
-      this.setState( {products: newProducts} )
-    })
-    .catch(error => console.log(error))
+        this.setState({
+          products: newProducts,
+          serverErrors: [],
+          saved: true,
+        });
+      })
+      .catch((error) => {
+        const msg = error.response.data;
+
+        this.setState({ serverErrors: [...this.state.serverErrors, msg] });
+      });
   };
 
   loadProductsFromServer = () => {
@@ -37,6 +48,13 @@ class ProductList extends React.Component {
       .catch((error) => console.log(error.response.data));
   };
 
+  resetSaved = () => {
+    this.setState({
+      saved: false,
+      serverErrors: [],
+    });
+  };
+
   render() {
     const { products } = this.state;
     const productList = products.map((product) => (
@@ -46,7 +64,12 @@ class ProductList extends React.Component {
     return (
       <>
         <Jumbotron />
-        <NewProductForm onSubmit={this.handleProductSubmit} />
+        <NewProductForm 
+          onSubmit={this.handleProductSubmit} 
+          serverErrors={this.state.serverErrors}
+          saved={this.state.saved}
+          onResetSaved={this.resetSaved}  
+        />
         <div className="container">
           <div className="row">
             <div className="col-md-12 mb-2">
