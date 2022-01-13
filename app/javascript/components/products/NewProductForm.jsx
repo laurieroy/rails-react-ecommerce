@@ -2,38 +2,38 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 class NewProductForm extends Component {
-	state = {
-		name: "",
-		description: "",
-		price: "",
-		quantity: "",
-		errors: {}
-	};
-		
+  state = {
+    name: "",
+    description: "",
+    price: "",
+    quantity: "",
+    errors: {},
+  };
+
   handleSubmit = (e) => {
-		e.preventDefault();
+    e.preventDefault();
 
-		const { name, description, price, quantity} = this.state
+    const { name, description, price, quantity } = this.state;
 
-		const newProduct = {
-			name,
-			description,
-			price,
-			quantity
-		}
+    const newProduct = {
+      name,
+      description,
+      price,
+      quantity,
+    };
 
-		this.props.onSubmit(newProduct)
-		this.setState({
-			name: "",
-			description: "",
-			price: "",
-			quantity: "",
-		})
-  }
+    this.props.onSubmit(newProduct);
+    this.setState({
+      name: "",
+      description: "",
+      price: "",
+      quantity: "",
+    });
+  };
 
-	handleChange = (e) => {		 
-		this.setState({ [e.target.name]: e.target.value })
-	}
+  handleChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
 
   render() {
     const buttonText = "Create Product";
@@ -49,7 +49,7 @@ class NewProductForm extends Component {
               </h1>
 
               <div className="form-body-style px-5 pt-4">
-                <form className="form-horizontal" onSubmit={this.handleSubmit} >
+                <form className="form-horizontal" onSubmit={this.handleSubmit}>
                   <div className="form-group row">
                     <label htmlFor="name" className="col-md-3 col-form-label">
                       Name
@@ -57,9 +57,9 @@ class NewProductForm extends Component {
                     <div className="col-md-9">
                       <input
                         type="text"
-												name="name"
-												value={this.state.name}
-												onChange={this.handleChange}
+                        name="name"
+                        value={this.state.name}
+                        onChange={this.handleChange}
                         id="name"
                         className="form-control"
                         placeholder="Item name"
@@ -75,9 +75,9 @@ class NewProductForm extends Component {
                     <div className="col-md-9">
                       <input
                         type="text"
-												name="price"
-												value={this.state.price}
-												onChange={this.handleChange}
+                        name="price"
+                        value={this.state.price}
+                        onChange={this.handleChange}
                         id="price"
                         className="form-control"
                         placeholder="Item price"
@@ -94,14 +94,34 @@ class NewProductForm extends Component {
                     </label>
                     <div className="col-md-9">
                       <textarea
-												name="description"
-												value={this.state.description}
-												onChange={this.handleChange}
+                        name="description"
+                        value={this.state.description}
+                        onChange={this.handleChange}
                         id="description"
                         className="form-control"
                         placeholder="Item description here"
                         rows="5"
                       ></textarea>
+                    </div>
+                  </div>
+
+                  <div className="form-group row">
+                    <label
+                      htmlFor="quantity"
+                      className="col-md-3 col-form-label"
+                    >
+                      Quantity
+                    </label>
+                    <div className="col-md-9">
+                      <input
+                        type="number"
+                        name="quantity"
+                        value={this.state.quantity}
+                        onChange={this.handleChange}
+                        id="quantity"
+                        className="form-control"
+                        placeholder="Item quantity"
+                      />
                     </div>
                   </div>
 
@@ -139,6 +159,6 @@ class NewProductForm extends Component {
 }
 
 NewProductForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired
-}
+  onSubmit: PropTypes.func.isRequired,
+};
 export default NewProductForm;

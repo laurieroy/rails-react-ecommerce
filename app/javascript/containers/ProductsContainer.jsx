@@ -15,7 +15,6 @@ class ProductList extends React.Component {
   };
 
   handleProductSubmit = (data) => {
-    const {}
     const newProduct = {
       product: { ...data }
     }
