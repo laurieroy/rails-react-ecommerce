@@ -15,14 +15,45 @@ class NewProductForm extends Component {
   handleBlur = (e) => {
     const { name } = e.target;
     const fieldError = this.checkErrors(this.state, name);
-    const errors = Object.assign({}, this.state.errors, fieldError)
+    const errors = Object.assign({}, this.state.errors, fieldError);
     // const errors = [...this.state.errors, fieldError];
 
     this.setState({ errors });
   };
 
   handleChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+    this.clearErrors(name, value);
+  };
+
+  clearErrors = (name, value) => {
+    let errors = { ...this.state.errors };
+
+    switch (name) {
+      case "name":
+        if (value.length > 0) {
+          delete errors["name"];
+        }
+        break;
+      case "description":
+        if (value.length > 0) {
+          delete errors["description"];
+        }
+        break;
+      case "price":
+        if (parseFloat(value) > 0.0 || value.match(/^\d{1,}(\.\d{0,2})?s/)) {
+          delete errors["price"];
+        }
+        break;
+      case "quantity":
+        if (parseInt(value > 0) || value.match(/^\d{1,}$/)) {
+          delete errors["quantity"];
+        }
+        break;
+      default:
+    }
+    this.setState({ errors });
   };
 
   handleSubmit = (e) => {
