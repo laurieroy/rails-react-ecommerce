@@ -13,6 +13,18 @@ class NewProductForm extends Component {
     errors: {},
   };
 
+  componentDidUpdate() {
+    if (this.props.saved) {
+      this.setState({
+        name: "",
+        description: "",
+        price: "",
+        quantity: "",
+      });
+      this.props.onResetSaved()
+    }
+  }
+
   handleBlur = (e) => {
     const { name } = e.target;
     const fieldError = this.checkErrors(this.state, name);
@@ -27,46 +39,6 @@ class NewProductForm extends Component {
     this.setState({ [name]: value });
     this.clearErrors(name, value);
   };
-
-  clearErrors = (name, value) => {
-    let errors = { ...this.state.errors };
-
-    switch (name) {
-      case "name":
-        if (value.length > 0) {
-          delete errors["name"];
-        }
-        break;
-      case "description":
-        if (value.length > 0) {
-          delete errors["description"];
-        }
-        break;
-      case "price":
-        if (parseFloat(value) > 0.0 || value.match(/^\d{1,}(\.\d{0,2})?s/)) {
-          delete errors["price"];
-        }
-        break;
-      case "quantity":
-        if (parseInt(value > 0) || value.match(/^\d{1,}$/)) {
-          delete errors["quantity"];
-        }
-        break;
-      default:
-    }
-    this.setState({ errors });
-  };
-  componentDidUpdate() {
-    if (this.props.saved) {
-      this.setState({
-        name: "",
-        description: "",
-        price: "",
-        quantity: "",
-      });
-      this.props.onResetSaved()
-    }
-  }
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -121,6 +93,36 @@ class NewProductForm extends Component {
 
     return error;
   };
+
+  clearErrors = (name, value) => {
+    let errors = { ...this.state.errors };
+
+    switch (name) {
+      case "name":
+        if (value.length > 0) {
+          delete errors["name"];
+        }
+        break;
+      case "description":
+        if (value.length > 0) {
+          delete errors["description"];
+        }
+        break;
+      case "price":
+        if (parseFloat(value) > 0.0 || value.match(/^\d{1,}(\.\d{0,2})?s/)) {
+          delete errors["price"];
+        }
+        break;
+      case "quantity":
+        if (parseInt(value > 0) || value.match(/^\d{1,}$/)) {
+          delete errors["quantity"];
+        }
+        break;
+      default:
+    }
+    this.setState({ errors });
+  };
+
 
   render() {
     const buttonText = "Create Product";
