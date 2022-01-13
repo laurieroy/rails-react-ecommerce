@@ -16,6 +16,13 @@ class ProductList extends React.Component {
     this.loadProductsFromServer();
   };
 
+  shouldComponentUpdate = (nextProps, nextState) => {
+    if (this.state.serverErrors.length !== nextState.serverErrors.length) {
+      return;
+    }
+    return false;
+  };
+
   handleProductSubmit = (data) => {
     const newProduct = {
       product: { ...data },
@@ -32,9 +39,15 @@ class ProductList extends React.Component {
         });
       })
       .catch((error) => {
-        const msg = error.response.data;
+        const msgs = error.response.data;
+        const currentErrors = [...this.state.serverErrors];
 
-        this.setState({ serverErrors: [...this.state.serverErrors, ...msg] });
+        msgs.forEach((msg) => {
+          if (!currentErrors.includes(msg)) {
+            currentErrors = [...currentErrors, msg];
+          }
+        });
+        this.setState({ serverErrors: currentErrors });
       });
   };
 
@@ -62,7 +75,7 @@ class ProductList extends React.Component {
     const productList = products.map((product) => (
       <Product key={product.id} product={product} />
     ));
-
+   
     return (
       <>
         <Jumbotron />
