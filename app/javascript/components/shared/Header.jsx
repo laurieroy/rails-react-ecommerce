@@ -25,11 +25,6 @@ const Header = () => (
             Home <span className="sr-only">(current)</span>
           </Link>
         </li>
-        <li className="nav-item">
-          <Link to="/products/new" className="nav-link">
-            New Product
-          </Link>
-        </li>
       </ul>
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
