@@ -34,7 +34,7 @@ class ProductList extends React.Component {
       .catch((error) => {
         const msg = error.response.data;
 
-        this.setState({ serverErrors: [...this.state.serverErrors, msg] });
+        this.setState({ serverErrors: [...this.state.serverErrors, ...msg] });
       });
   };
 
@@ -45,7 +45,9 @@ class ProductList extends React.Component {
         const { products } = response.data;
         this.setState({ products });
       })
-      .catch((error) => console.log(error.response.data));
+      .catch((error) => {
+        console.log(error.response.data);
+      });
   };
 
   resetSaved = () => {
@@ -64,11 +66,11 @@ class ProductList extends React.Component {
     return (
       <>
         <Jumbotron />
-        <NewProductForm 
-          onSubmit={this.handleProductSubmit} 
+        <NewProductForm
+          onSubmit={this.handleProductSubmit}
           serverErrors={this.state.serverErrors}
           saved={this.state.saved}
-          onResetSaved={this.resetSaved}  
+          onResetSaved={this.resetSaved}
         />
         <div className="container">
           <div className="row">
