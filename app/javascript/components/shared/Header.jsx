@@ -29,7 +29,7 @@ const Header = ({ currentUser, onSignout, location, history }) => (
       </ul>
       <ul className="navbar-nav ml-auto">
         <li className="nav-item">
-          <Link to="/" className="nav-link">
+          <Link to="/signin" className="nav-link">
             Sign In
           </Link>
         </li>

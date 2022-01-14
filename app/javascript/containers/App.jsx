@@ -7,15 +7,16 @@ import Footer from "../components/shared/Footer";
 import ProductList from "./ProductsContainer";
 import ProductDetail from "./ProductDetailContainer";
 import Signup from "./SignupFormContainer";
+import Signin from "./SigninFormContainer";
 
 class App extends Component {
   state = {
     currentUser: null,
   };
 
-	componentDidMount = () => {
-		this.fetchCurrentUser()
-	}
+  componentDidMount = () => {
+    this.fetchCurrentUser();
+  };
 
   fetchCurrentUser = () => {
     axios
@@ -28,30 +29,32 @@ class App extends Component {
       .catch((error) => console.log(error.response.data));
   };
 
-	handleSignout = (e, location, history) => {
-		e.preventDefault()
+  handleSignout = (e, location, history) => {
+    e.preventDefault();
 
-		axios.delete("/api/v1/signout.json")
-		.then(resp => {
-			this.setState({ currentUser: null })
-			if (location.pathname !== "/") {
-				history.push("/")
-			}
-		}).catch(error => console.log(error.resp))
-	}
+    axios
+      .delete("/api/v1/signout.json")
+      .then((resp) => {
+        this.setState({ currentUser: null });
+        if (location.pathname !== "/") {
+          history.push("/");
+        }
+      })
+      .catch((error) => console.log(error.resp));
+  };
 
   setCurrentUser = (currentUser) => {
     this.setState({ currentUser });
-	};
-	
+  };
+
   render() {
     return (
       <BrowserRouter>
         <>
-					<Header 
-						currentUser={this.state.currentUser} 
-						onSignout={this.handleSignout}
-					/>
+          <Header
+            currentUser={this.state.currentUser}
+            onSignout={this.handleSignout}
+          />
 
           <Switch>
             <Route exact path="/" component={ProductList} />
@@ -59,12 +62,13 @@ class App extends Component {
             <Route
               path="/register"
               render={() => (
-								<Signup 
-									onFetchCurrentUser={this.fetchCurrentUser} 
-									currentUser={this.state.currentUser}	
-								/>
+                <Signup
+                  onFetchCurrentUser={this.fetchCurrentUser}
+                  currentUser={this.state.currentUser}
+                />
               )}
             />
+            <Route path="/signin" component={Signin} />
             {/* 						<Route path="/newProduct" component={NewProductForm} /> */}
             <Route
               render={() => (
