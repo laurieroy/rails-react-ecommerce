@@ -2,10 +2,9 @@ import React from "react";
 import axios from "axios";
 
 class ProductDetail extends React.Component {
-	state = {
-		product: {},
-	};
-
+  state = {
+    product: {},
+  };
 
   componentDidMount() {
     const id = this.props.match.params.id;
@@ -19,7 +18,7 @@ class ProductDetail extends React.Component {
   }
 
   render() {
-		const { product } = this.state
+    const { product } = this.state;
 
     return (
       <div className="container">
@@ -35,16 +34,16 @@ class ProductDetail extends React.Component {
           <div className="col-md-10 offset-md-1">
             <div className="float-right">
               <h3>
-                <span className="badge badge-pill badge-purple">{product.price}</span>
+                <span className="badge badge-pill badge-purple">
+                  {product.price}
+                </span>
               </h3>
             </div>
             <div>
               <h3>{product.name}</h3>
             </div>
 
-            <div className="mb-4">
-							{product.description}
-            </div>
+            <div className="mb-4">{product.description}</div>
 
             <div className="float-right btn-edit-del">
               <a href="#" className="btn btn-outline-danger btn-lg">
