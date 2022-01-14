@@ -5,7 +5,7 @@ import axios from "axios";
 import Button from "../components/shared/Button";
 import SignupForm from "../components/shared/Form";
 import Input from "../components/shared/Input";
-import { EMAIL_REGEX } from "../shared/helpers";
+import { EMAIL_REGEX, verifyAndSetFieldErrors } from "../shared/helpers";
 
 class Signup extends Component {
   state = {
@@ -34,6 +34,7 @@ class Signup extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
+		const fieldNames = ["firstname", "lastname", "email", "password" ]
     const { firstname, lastname, email, password } = this.state;
 
     const newUser = {
@@ -53,7 +54,9 @@ class Signup extends Component {
       password: "",
       errors: {},
       toHomePage: true,
-    });
+		});
+		
+		verifyAndSetFieldErrors(fieldNames)
   };
 
   handleSignup = (user) => {
@@ -125,7 +128,8 @@ class Signup extends Component {
       default:
     }
     this.setState({ errors });
-  };
+	};
+
 
   render() {
     if (this.state.toHomePage || this.props.currentUser) {
