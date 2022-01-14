@@ -28,14 +28,27 @@ class App extends Component {
       .catch((error) => console.log(error.response.data));
   };
 
+	handleSignout = (e) => {
+		e.preventDefault()
+
+		axios.delete("/api/v1/signout.json")
+		.then(resp => {
+			this.setState({ currentUser: null })
+		}).catch(error => console.log(error.resp))
+	}
+
   setCurrentUser = (currentUser) => {
     this.setState({ currentUser });
-  };
+	};
+	
   render() {
     return (
       <BrowserRouter>
         <>
-          <Header currentUser={this.state.currentUser} />
+					<Header 
+						currentUser={this.state.currentUser} 
+						onSignout={this.handleSignout}
+					/>
 
           <Switch>
             <Route exact path="/" component={ProductList} />

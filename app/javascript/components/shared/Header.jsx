@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
-const Header = ({ currentUser }) => (
+const Header = ({ currentUser, onSignout }) => (
   <nav className="navbar navbar-expand-lg navbar-light ">
     <Link to="/" className="navbar-brand goog">
       O-Sale
@@ -37,19 +38,24 @@ const Header = ({ currentUser }) => (
             Sign Up
           </Link>
         </li>
+        <li className="nav-item">
+          <a href="#" onClick={onSignout} className="nav-link">
+            Sign Out
+          </a>
+        </li>
         {currentUser ? (
           <li className="nav-item mt-1">
             <p className="navbar-text">Signed in as {currentUser.email}</p>
           </li>
-          ) : null
-        }
+        ) : null}
       </ul>
     </div>
   </nav>
 );
 
 Header.propTypes = {
-  currentUser: PropTypes.object
-}
+  currentUser: PropTypes.object,
+  onSignout: PropTypes.func.isRequired
+};
 
 export default Header;

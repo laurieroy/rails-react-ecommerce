@@ -4,10 +4,10 @@ import axios from "axios";
 import PropTypes from "prop-types";
 
 import Button from "../components/shared/Button";
-import SignupForm from "../components/shared/Form";
-import Input from "../components/shared/Input";
 import { EMAIL_REGEX, verifyAndSetFieldErrors } from "../shared/helpers";
-import ErrorMessages from "../components/shared/ErrorMessages"
+import ErrorMessages from "../components/shared/ErrorMessages";
+import Input from "../components/shared/Input";
+import SignupForm from "../components/shared/Form";
 
 class Signup extends Component {
   state = {
@@ -15,31 +15,31 @@ class Signup extends Component {
     lastname: "",
     email: "",
     password: "",
-		errors: {},
-		saved: false,
+    errors: {},
+    saved: false,
     serverErrors: [],
-		toHomePage: false,
+    toHomePage: false,
   };
 
-	componentDidUpdate = () => {
-		if (this.state.saved) {
-			this.setState({
-				firstname: "",
-				lastname: "",
-				email: "",
-				password: "",
-				errors: {},
-				toHomePage: true,
-			})
-			this.resetSaved()
-		}
-	}
+  componentDidUpdate = () => {
+    if (this.state.saved) {
+      this.setState({
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+        errors: {},
+        toHomePage: true,
+      });
+      this.resetSaved();
+    }
+  };
 
-	componentWillUnmount = () => {
-		if (this.state.serverErrors.length > 0) {
-			this.resetSaved()
-		}
-	}
+  componentWillUnmount = () => {
+    if (this.state.serverErrors.length > 0) {
+      this.resetSaved();
+    }
+  };
 
   handleBlur = (e) => {
     const { name } = e.target;
@@ -58,7 +58,7 @@ class Signup extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-		const fieldNames = ["firstname", "lastname", "email", "password" ]
+    const fieldNames = ["firstname", "lastname", "email", "password"];
     const { firstname, lastname, email, password } = this.state;
 
     const newUser = {
@@ -71,27 +71,30 @@ class Signup extends Component {
     };
 
     this.handleSignup(newUser);
-		
-		verifyAndSetFieldErrors(fieldNames)
+
+    verifyAndSetFieldErrors(this, fieldNames);
   };
 
   handleSignup = (user) => {
     axios
       .post("/api/v1/users.json", user)
       .then((resp) => {
-				this.setState({
-					serverErrors: [],
-					saved: true
-				}, () => {
-					this.props.onFetchCurrentUser();
-				})
+        this.setState(
+          {
+            serverErrors: [],
+            saved: true,
+          },
+          () => {
+            this.props.onFetchCurrentUser();
+          }
+        );
       })
       .catch((error) => {
-				this.setState({
-					serverErrors: [...error.resp.data]
-				})
-			})
-  }
+        this.setState({
+          serverErrors: [...error.resp.data],
+        });
+      });
+  };
 
   checkErrors = (state, fieldName) => {
     const error = {};
@@ -153,14 +156,14 @@ class Signup extends Component {
       default:
     }
     this.setState({ errors });
-	};
+  };
 
-	resetSaved = () => {
-		this.setState({
-			saved: false,
-			serverErrors: []
-		})
-	}
+  resetSaved = () => {
+    this.setState({
+      saved: false,
+      serverErrors: [],
+    });
+  };
 
   render() {
     if (this.state.toHomePage || this.props.currentUser) {
@@ -168,10 +171,10 @@ class Signup extends Component {
     }
     return (
       <div className="container mt-4">
-				<div className="row">
-					{this.state.serverErrors.length > 0 &&
-						<ErrorMessages errors={this.state.serverErrors} />
-					}
+        <div className="row">
+          {this.state.serverErrors.length > 0 && (
+            <ErrorMessages errors={this.state.serverErrors} />
+          )}
           <div className="col-md-8 offset-md-2">
             <h1 className="text-center form-header-style mt-5 pt-2 pb-3">
               Sign up
@@ -232,8 +235,8 @@ class Signup extends Component {
 }
 
 Signup.propTypes = {
-	currentUser: PropTypes.object,
-	onFetchCurrentUser: PropTypes.func.isRequired
-}
+  currentUser: PropTypes.object,
+  onFetchCurrentUser: PropTypes.func.isRequired,
+};
 
 export default Signup;
