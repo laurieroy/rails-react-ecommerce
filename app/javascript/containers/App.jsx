@@ -13,31 +13,37 @@ class App extends Component {
     currentUser: null,
   };
 
-	fetchCurrentUser = () => {
-		axios.get("/api/v1/users/get_current_user.json")
-		.then(resp => {
-			let currentUser = resp.data.currentUser || null
+	componentDidMount = () = {}
 
-			this.setCurrentUser(currentUser)
-		})
-		.catch(error => console.log(error.response.data))
-	}
+  fetchCurrentUser = () => {
+    axios
+      .get("/api/v1/users/get_current_user.json")
+      .then((resp) => {
+        let currentUser = resp.data.currentUser || null;
 
-	setCurrentUser = (currentUser) => {
-		this.setState({ currentUser })
-	}
+        this.setCurrentUser(currentUser);
+      })
+      .catch((error) => console.log(error.response.data));
+  };
+
+  setCurrentUser = (currentUser) => {
+    this.setState({ currentUser });
+  };
   render() {
     return (
       <BrowserRouter>
         <>
-          <Header />
+          <Header currentUser={this.state.currentUser} />
 
           <Switch>
             <Route exact path="/" component={ProductList} />
             <Route path="/products/:id" component={ProductDetail} />
-            <Route path="/register" render={() => (
-							<Signup onFetchCurrentUser={this.fetchCurrentUser} />
-						)} />
+            <Route
+              path="/register"
+              render={() => (
+                <Signup onFetchCurrentUser={this.fetchCurrentUser} />
+              )}
+            />
             {/* 						<Route path="/newProduct" component={NewProductForm} /> */}
             <Route
               render={() => (

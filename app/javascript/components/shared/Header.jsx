@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Header = () => (
+const Header = ({ currentUser }) => (
   <nav className="navbar navbar-expand-lg navbar-light ">
     <Link to="/" className="navbar-brand goog">
       O-Sale
@@ -37,9 +37,19 @@ const Header = () => (
             Sign Up
           </Link>
         </li>
+        {currentUser ? (
+          <li className="nav-item mt-1">
+            <p className="navbar-text">Signed in as {currentUser.email}</p>
+          </li>
+          ) : null
+        }
       </ul>
     </div>
   </nav>
 );
+
+Header.propTypes = {
+  currentUser: PropTypes.object
+}
 
 export default Header;
