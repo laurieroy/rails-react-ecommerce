@@ -5,6 +5,7 @@ import axios from "axios";
 import Button from "../components/shared/Button";
 import SignupForm from "../components/shared/Form";
 import Input from "../components/shared/Input";
+import { EMAIL_REGEX } from "../shared/helpers";
 
 class Signup extends Component {
   state = {
@@ -16,11 +17,18 @@ class Signup extends Component {
     toHomePage: false,
   };
 
-  handleBlur = (e) => {};
+  handleBlur = (e) => {
+    const { name } = e.target;
+    const fieldError = this.checkErrors(this.state, name);
+    const errors = [...this.state.errors, fieldError];
+
+    this.setState({ errors });
+  };
 
   handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
+    this.clearErrors(name, value);
   };
 
   handleSubmit = (e) => {
@@ -55,6 +63,68 @@ class Signup extends Component {
         this.props.onFetchCurrentUser();
       })
       .catch((error) => console.log(error));
+  };
+
+  checkErrors = (state, fieldName) => {
+    const error = {};
+
+    switch (fieldName) {
+      case "firstname":
+        if (!state.firstname) {
+          error.firstname = "Please provide a first name";
+        }
+        break;
+      case "lastname":
+        if (!state.lastname) {
+          error.lastname = "Please provide a last name";
+        }
+        break;
+
+      case "email":
+        if (!state.email || !EMAIL_REGEX.test(state.email)) {
+          error.email = "Please provide a valid email address";
+        }
+        break;
+
+      case "password":
+        if (!state.password) {
+          error.password = "Please provide a password";
+        }
+        break;
+      default:
+    }
+
+    return error;
+  };
+
+  clearErrors = (name, value) => {
+    let errors = { ...this.state.errors };
+
+    switch (name) {
+      case "firstname":
+        if (value.length > 0) {
+          delete errors["firstname"];
+        }
+        break;
+      case "lastname":
+        if (value.length > 0) {
+          delete errors["lastname"];
+        }
+        break;
+      case "password":
+        if (value.length > 0) {
+          delete errors["password"];
+        }
+        break;
+      case "email":
+        if (value.length > 0 && EMAIL_REGEX.test(this.state.email)) {
+          delete errors["email"];
+        }
+        break;
+
+      default:
+    }
+    this.setState({ errors });
   };
 
   render() {
