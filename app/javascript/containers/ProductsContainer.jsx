@@ -55,6 +55,7 @@ class ProductList extends React.Component {
             currentErrors = [...currentErrors, msg];
           }
         });
+
         this.setState({ serverErrors: currentErrors });
       });
   };
@@ -64,6 +65,7 @@ class ProductList extends React.Component {
       .get("/api/v1/products.json")
       .then((response) => {
         const { products } = response.data;
+
         this.setState({ products });
       })
       .catch((error) => {

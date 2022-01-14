@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { inputClasses } from "../../shared/helpers";
 
-const Input = (props) => {
+const Input = (props) => (
   <div className="form-group row">
     <label htmlFor={props.name} className="col-md-3 col-form-label">
       {props.title}
@@ -24,8 +24,8 @@ const Input = (props) => {
         <div className="invalid-feedback">{props.state.errors[props.name]}</div>
       ) : null}
     </div>
-  </div>;
-};
+  </div>
+);
 
 Input.propTypes = {
   type: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,

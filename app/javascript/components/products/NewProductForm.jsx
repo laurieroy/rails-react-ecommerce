@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import ErrorMessage from "../shared/ErrorMessages";
-import ProductForm from "../shared/Form";
+import ProductForm from "./ProductForm";
 
 class NewProductForm extends Component {
   state = {
@@ -174,9 +174,9 @@ class NewProductForm extends Component {
 }
 
 NewProductForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  serverErrors: PropTypes.array.isRequired,
   saved: PropTypes.bool.isRequired,
+  serverErrors: PropTypes.array.isRequired,
   onResetSaved: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 export default NewProductForm;

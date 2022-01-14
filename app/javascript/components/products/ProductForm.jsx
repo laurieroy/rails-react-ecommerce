@@ -1,7 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const ProductForm = (props) => {
+import Button from "../shared/Button";
+import Form from "../shared/Form";
+import Input from "../shared/Input";
+import TextArea from "../shared/TextArea";
+
+const ProductForm = (props) => (
   <Form onSubmit={props.onSubmit}>
     <Input
       title="Name"
@@ -16,7 +21,6 @@ const ProductForm = (props) => {
     />
 
     <Input
-      id="price"
       title="Price"
       name="price"
       placeholder="Item price"
@@ -29,7 +33,6 @@ const ProductForm = (props) => {
     />
 
     <TextArea
-      id="description"
       title="Description"
       name="description"
       placeholder="Item description"
@@ -43,7 +46,6 @@ const ProductForm = (props) => {
     />
 
     <Input
-      id="quantity"
       title="Quantity"
       name="quantity"
       placeholder="Item quantity"
@@ -56,7 +58,6 @@ const ProductForm = (props) => {
     />
 
     <Input
-      id="image"
       title="Image"
       name="image"
       placeholder="Item image"
@@ -69,8 +70,8 @@ const ProductForm = (props) => {
     />
 
     <Button>{props.buttonText}</Button>
-  </Form>;
-};
+  </Form>
+);
 
 ProductForm.propTypes = {
   onBlur: PropTypes.func.isRequired,

@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import Form from "../shared/Form";
-
-const ProductForm = (props) => {
+const Form = (props) => {
   return (
     <div className="form-body-style px-5 pt-4">
       <form className="form-horizontal" onSubmit={props.onSubmit} noValidate>
@@ -18,4 +16,4 @@ Form.propTypes = {
   children: PropTypes.array.isRequired,
 };
 
-export default ProductForm;
+export default Form;
