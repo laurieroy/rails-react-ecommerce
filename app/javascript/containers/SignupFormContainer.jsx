@@ -1,11 +1,13 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
+import PropTypes from "prop-types";
 
 import Button from "../components/shared/Button";
 import SignupForm from "../components/shared/Form";
 import Input from "../components/shared/Input";
 import { EMAIL_REGEX, verifyAndSetFieldErrors } from "../shared/helpers";
+import ErrorMessages from "../components/shared/ErrorMessages"
 
 class Signup extends Component {
   state = {
@@ -13,9 +15,31 @@ class Signup extends Component {
     lastname: "",
     email: "",
     password: "",
-    errors: {},
-    toHomePage: false,
+		errors: {},
+		saved: false,
+    serverErrors: [],
+		toHomePage: false,
   };
+
+	componentDidUpdate = () => {
+		if (this.state.saved) {
+			this.setState({
+				firstname: "",
+				lastname: "",
+				email: "",
+				password: "",
+				errors: {},
+				toHomePage: true,
+			})
+			this.resetSaved()
+		}
+	}
+
+	componentWillUnmount = () => {
+		if (this.state.serverErrors.length > 0) {
+			this.resetSaved()
+		}
+	}
 
   handleBlur = (e) => {
     const { name } = e.target;
@@ -47,14 +71,6 @@ class Signup extends Component {
     };
 
     this.handleSignup(newUser);
-    this.setState({
-      firstname: "",
-      lastname: "",
-      email: "",
-      password: "",
-      errors: {},
-      toHomePage: true,
-		});
 		
 		verifyAndSetFieldErrors(fieldNames)
   };
@@ -63,10 +79,19 @@ class Signup extends Component {
     axios
       .post("/api/v1/users.json", user)
       .then((resp) => {
-        this.props.onFetchCurrentUser();
+				this.setState({
+					serverErrors: [],
+					saved: true
+				}, () => {
+					this.props.onFetchCurrentUser();
+				})
       })
-      .catch((error) => console.log(error));
-  };
+      .catch((error) => {
+				this.setState({
+					serverErrors: [...error.resp.data]
+				})
+			})
+  }
 
   checkErrors = (state, fieldName) => {
     const error = {};
@@ -130,6 +155,12 @@ class Signup extends Component {
     this.setState({ errors });
 	};
 
+	resetSaved = () => {
+		this.setState({
+			saved: false,
+			serverErrors: []
+		})
+	}
 
   render() {
     if (this.state.toHomePage || this.props.currentUser) {
@@ -137,7 +168,10 @@ class Signup extends Component {
     }
     return (
       <div className="container mt-4">
-        <div className="row">
+				<div className="row">
+					{this.state.serverErrors.length > 0 &&
+						<ErrorMessages errors={this.state.serverErrors} />
+					}
           <div className="col-md-8 offset-md-2">
             <h1 className="text-center form-header-style mt-5 pt-2 pb-3">
               Sign up
@@ -195,6 +229,11 @@ class Signup extends Component {
       </div>
     );
   }
+}
+
+Signup.propTypes = {
+	currentUser: PropTypes.object,
+	onFetchCurrentUser: PropTypes.func.isRequired
 }
 
 export default Signup;
