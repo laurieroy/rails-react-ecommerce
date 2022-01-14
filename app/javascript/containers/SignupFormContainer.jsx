@@ -61,7 +61,9 @@ class Signup extends Component {
     e.preventDefault();
 
     const fieldNames = ["firstname", "lastname", "email", "password"];
-		if(Object.keys(this.state.errors).length === 0){
+		verifyAndSetFieldErrors(this, fieldNames);
+		
+		if (Object.keys(this.state.errors).length === 0) {
 			const { firstname, lastname, email, password } = this.state;
 			const newUser = {
 				user: {
@@ -73,8 +75,6 @@ class Signup extends Component {
 			};
 
 			this.handleSignup(newUser);
-
-			verifyAndSetFieldErrors(this, fieldNames);
 		}
   };
 
