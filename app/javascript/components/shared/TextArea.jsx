@@ -17,7 +17,8 @@ const TextArea = (props) => {
         id={props.id}
         className={inputClasses(`${props.name}`, props.state)}
         placeholder={props.placeholder}
-        rows={props.rows}
+				rows={props.rows}
+				autoFocus={props.autoFocus}
       ></textarea>
       {props.state.errors[props.name] ? (
         <div className="invalid-feedback">{props.state.errors[props.name]}</div>

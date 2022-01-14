@@ -15,7 +15,7 @@ const Input = (props) => {
         value={props.value}
         onChange={props.onChange}
         onBlur={props.onBlur}
-        id={props.id}
+        id={props.name}
         className={inputClasses(`${props.name}`, props.state)}
         placeholder={props.placeholder}
         autoFocus={props.autoFocus}
@@ -30,7 +30,6 @@ const Input = (props) => {
 Input.propTypes = {
 	type: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 	name: PropTypes.string.isRequired,
-	id: PropTypes.string,
 	title: PropTypes.string.isRequired,
 	state: PropTypes.object.isRequired,
 	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
