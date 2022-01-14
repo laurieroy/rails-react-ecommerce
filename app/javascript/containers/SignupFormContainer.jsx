@@ -58,7 +58,9 @@ class Signup extends Component {
   };
 
   render() {
-    if (this.state.toHomePage) return <Redirect to="/" />;
+    if (this.state.toHomePage || this.props.currentUser) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className="container mt-4">
         <div className="row">

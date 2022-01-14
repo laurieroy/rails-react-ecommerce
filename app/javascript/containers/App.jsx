@@ -13,7 +13,9 @@ class App extends Component {
     currentUser: null,
   };
 
-	componentDidMount = () = {}
+	componentDidMount = () => {
+		this.fetchCurrentUser()
+	}
 
   fetchCurrentUser = () => {
     axios
@@ -41,7 +43,10 @@ class App extends Component {
             <Route
               path="/register"
               render={() => (
-                <Signup onFetchCurrentUser={this.fetchCurrentUser} />
+								<Signup 
+									onFetchCurrentUser={this.fetchCurrentUser} 
+									currentUser={this.state.currentUser}	
+								/>
               )}
             />
             {/* 						<Route path="/newProduct" component={NewProductForm} /> */}
