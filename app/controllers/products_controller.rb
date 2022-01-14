@@ -1,6 +1,6 @@
 class ProductsController < ApplicationController
 	before_action :set_product, except: %i[index new create]
-	# before_action :require_signin, except: %i[index show]
+	before_action :require_signin, except: %i[index show]
 	# before_action :require_owner, only: %i[edit update destroy]
 
 	def index
@@ -18,8 +18,7 @@ class ProductsController < ApplicationController
 
 	def create
 		@product = Product.new(product_params)
-		@product.user_id = 1
-		# @product.user = current_user
+		@product.user = current_user
 
 		unless @product.save
 			render json: @product.errors.full_messages, status: :unprocessable_entity
