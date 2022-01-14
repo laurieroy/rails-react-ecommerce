@@ -68,7 +68,15 @@ class App extends Component {
                 />
               )}
             />
-            <Route path="/signin" component={Signin} />
+						<Route 
+							path="/signin" 
+							render={() => (
+                <Signin
+                  onFetchCurrentUser={this.fetchCurrentUser}
+                  currentUser={this.state.currentUser}
+                />
+              )}
+						/>
             {/* 						<Route path="/newProduct" component={NewProductForm} /> */}
             <Route
               render={() => (

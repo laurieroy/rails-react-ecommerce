@@ -30,8 +30,8 @@ class Signup extends Component {
         password: "",
         errors: {},
         toHomePage: true,
-			});
-			
+      });
+
       this.resetSaved();
     }
   };
@@ -45,14 +45,14 @@ class Signup extends Component {
   handleBlur = (e) => {
     const { name } = e.target;
     const fieldError = this.checkErrors(this.state, name);
-    const errors = Object.assign({}, this.state.errors, fieldError)
+    const errors = Object.assign({}, this.state.errors, fieldError);
 
     this.setState({ errors });
   };
 
   handleChange = (e) => {
-		const { name, value } = e.target;
-		
+    const { name, value } = e.target;
+
     this.setState({ [name]: value });
     this.clearErrors(name, value);
   };
@@ -61,21 +61,21 @@ class Signup extends Component {
     e.preventDefault();
 
     const fieldNames = ["firstname", "lastname", "email", "password"];
-		verifyAndSetFieldErrors(this, fieldNames);
-		
-		if (Object.keys(this.state.errors).length === 0) {
-			const { firstname, lastname, email, password } = this.state;
-			const newUser = {
-				user: {
-					first_name: firstname,
-					last_name: lastname,
-					email,
-					password,
-				},
-			};
+    verifyAndSetFieldErrors(this, fieldNames);
 
-			this.handleSignup(newUser);
-		}
+    if (Object.keys(this.state.errors).length === 0) {
+      const { firstname, lastname, email, password } = this.state;
+      const newUser = {
+        user: {
+          first_name: firstname,
+          last_name: lastname,
+          email,
+          password,
+        },
+      };
+
+      this.handleSignup(newUser);
+    }
   };
 
   handleSignup = (user) => {
@@ -89,7 +89,8 @@ class Signup extends Component {
           },
           () => {
             this.props.onFetchCurrentUser();
-          })
+          }
+        );
       })
       .catch((error) => {
         this.setState({
