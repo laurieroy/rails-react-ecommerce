@@ -28,15 +28,15 @@ const Input = (props) => {
 };
 
 Input.propTypes = {
-	type: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-	name: PropTypes.string.isRequired,
-	title: PropTypes.string.isRequired,
-	state: PropTypes.object.isRequired,
-	value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-	autoFocus: PropTypes.bool.isRequired,
-	placeholder: PropTypes.string.isRequired,
-	onChange: PropTypes.func.isRequired,
-	onBlur: PropTypes.func.isRequired,
+  type: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  state: PropTypes.object.isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  autoFocus: PropTypes.bool.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
 };
 
 export default Input;
