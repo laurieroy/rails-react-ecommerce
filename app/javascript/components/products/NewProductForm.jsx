@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import { inputClasses } from "../../shared/helpers";
-
 import Button from "../shared/Button";
 import ErrorMessage from "../shared/ErrorMessages";
+import ProductForm from "../shared/Form";
 import Input from "../shared/Input";
 import TextArea from "../shared/TextArea";
 
@@ -162,76 +161,74 @@ class NewProductForm extends Component {
                 {title}
               </h1>
 
-              <div className="form-body-style px-5 pt-4">
-                <form className="form-horizontal" onSubmit={this.handleSubmit}>
-                  <Input
-                    title="Name"
-                    name="name"
-                    placeholder="Item name"
-                    type="text"
-                    value={this.state.name}
-                    onBlur={this.handleBlur}
-                    onChange={this.handleChange}
-                    autoFocus={true}
-                    state={this.state}
-                  />
+              <ProductForm onSubmit={this.handleSubmit}>
+                <Input
+                  title="Name"
+                  name="name"
+                  placeholder="Item name"
+                  type="text"
+                  value={this.state.name}
+                  onBlur={this.handleBlur}
+                  onChange={this.handleChange}
+                  autoFocus={true}
+                  state={this.state}
+                />
 
-                  <Input
-                    id="price"
-                    title="Price"
-                    name="price"
-                    placeholder="Item price"
-                    type="text"
-                    value={this.state.price}
-                    onBlur={this.handleBlur}
-                    onChange={this.handleChange}
-                    autoFocus={false}
-                    state={this.state}
-                  />
+                <Input
+                  id="price"
+                  title="Price"
+                  name="price"
+                  placeholder="Item price"
+                  type="text"
+                  value={this.state.price}
+                  onBlur={this.handleBlur}
+                  onChange={this.handleChange}
+                  autoFocus={false}
+                  state={this.state}
+                />
 
-                  <TextArea
-                    id="description"
-                    title="Description"
-                    name="description"
-                    placeholder="Item description"
-                    type="text"
-                    value={this.state.description}
-                    onBlur={this.handleBlur}
-                    onChange={this.handleChange}
-                    autoFocus={false}
-                    rows="5"
-                    state={this.state}
-                  />
+                <TextArea
+                  id="description"
+                  title="Description"
+                  name="description"
+                  placeholder="Item description"
+                  type="text"
+                  value={this.state.description}
+                  onBlur={this.handleBlur}
+                  onChange={this.handleChange}
+                  autoFocus={false}
+                  rows="5"
+                  state={this.state}
+                />
 
-                  <Input
-                    id="quantity"
-                    title="Quantity"
-                    name="quantity"
-                    placeholder="Item quantity"
-                    type="number"
-                    value={this.state.quantity}
-                    onBlur={this.handleBlur}
-                    onChange={this.handleChange}
-                    autoFocus={false}
-                    state={this.state}
-                  />
+                <Input
+                  id="quantity"
+                  title="Quantity"
+                  name="quantity"
+                  placeholder="Item quantity"
+                  type="number"
+                  value={this.state.quantity}
+                  onBlur={this.handleBlur}
+                  onChange={this.handleChange}
+                  autoFocus={false}
+                  state={this.state}
+                />
 
-                  <Input
-                    id="image"
-                    title="Image"
-                    name="image"
-                    placeholder="Item image"
-                    type="file"
-                    value={this.state.image}
-                    onBlur={this.handleBlur}
-                    onChange={this.handleChange}
-                    autoFocus={false}
-                    state={this.state}
-                  />
+                <Input
+                  id="image"
+                  title="Image"
+                  name="image"
+                  placeholder="Item image"
+                  type="file"
+                  value={this.state.image}
+                  onBlur={this.handleBlur}
+                  onChange={this.handleChange}
+                  autoFocus={false}
+                  state={this.state}
+                />
 
-                  <Button>{buttonText}</Button>
-                </form>
-              </div>
+                <Button>{buttonText}</Button>
+              </ProductForm>
             </div>
           </div>
         </div>
