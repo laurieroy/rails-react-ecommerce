@@ -30,7 +30,8 @@ class Signup extends Component {
         password: "",
         errors: {},
         toHomePage: true,
-      });
+			});
+			
       this.resetSaved();
     }
   };
@@ -44,13 +45,14 @@ class Signup extends Component {
   handleBlur = (e) => {
     const { name } = e.target;
     const fieldError = this.checkErrors(this.state, name);
-    const errors = [...this.state.errors, fieldError];
+    const errors = Object.assign({}, this.state.errors, fieldError)
 
     this.setState({ errors });
   };
 
   handleChange = (e) => {
-    const { name, value } = e.target;
+		const { name, value } = e.target;
+		
     this.setState({ [name]: value });
     this.clearErrors(name, value);
   };
@@ -59,20 +61,21 @@ class Signup extends Component {
     e.preventDefault();
 
     const fieldNames = ["firstname", "lastname", "email", "password"];
-    const { firstname, lastname, email, password } = this.state;
+		if(Object.keys(this.state.errors).length === 0){
+			const { firstname, lastname, email, password } = this.state;
+			const newUser = {
+				user: {
+					first_name: firstname,
+					last_name: lastname,
+					email,
+					password,
+				},
+			};
 
-    const newUser = {
-      user: {
-        first_name: firstname,
-        last_name: lastname,
-        email,
-        password,
-      },
-    };
+			this.handleSignup(newUser);
 
-    this.handleSignup(newUser);
-
-    verifyAndSetFieldErrors(this, fieldNames);
+			verifyAndSetFieldErrors(this, fieldNames);
+		}
   };
 
   handleSignup = (user) => {
@@ -86,8 +89,7 @@ class Signup extends Component {
           },
           () => {
             this.props.onFetchCurrentUser();
-          }
-        );
+          })
       })
       .catch((error) => {
         this.setState({
@@ -186,7 +188,7 @@ class Signup extends Component {
                 name="firstname"
                 value={this.state.firstname}
                 onChange={this.handleChange}
-                onBlue={this.hanleBlur}
+                onBlur={this.handleBlur}
                 placeholder="Your first name, e.g., Jane"
                 autoFocus={true}
                 state={this.state}
@@ -198,7 +200,7 @@ class Signup extends Component {
                 name="lastname"
                 value={this.state.lastname}
                 onChange={this.handleChange}
-                onBlue={this.hanleBlur}
+                onBlur={this.handleBlur}
                 placeholder="Your last name, e.g., Doe"
                 autoFocus={false}
                 state={this.state}
@@ -209,7 +211,7 @@ class Signup extends Component {
                 name="email"
                 value={this.state.email}
                 onChange={this.handleChange}
-                onBlue={this.hanleBlur}
+                onBlur={this.handleBlur}
                 placeholder="jane_doe@example.com"
                 autoFocus={false}
                 state={this.state}
@@ -220,7 +222,7 @@ class Signup extends Component {
                 name="password"
                 value={this.state.password}
                 onChange={this.handleChange}
-                onBlue={this.hanleBlur}
+                onBlur={this.handleBlur}
                 placeholder="password"
                 autoFocus={false}
                 state={this.state}
