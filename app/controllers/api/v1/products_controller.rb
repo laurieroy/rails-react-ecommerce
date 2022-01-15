@@ -43,8 +43,7 @@ class Api::V1::ProductsController < ApplicationController
 
 	def require_owner
 		unless @product.owned_by?(current_user)
-			flash[:alert] = "Access denied"
-			redirect_to root_path
+			render json: { error: "Access denied!"}, status: :unauthorized
 		end
 	end
 

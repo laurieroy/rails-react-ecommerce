@@ -110,16 +110,18 @@ class ProductDetail extends React.Component {
             ) : null}
           </div>
 
-          <Route
-            path="/products/:id/edit"
-            render={(props) => (
-              <EditProductForm 
-                {...props} 
-                onEdit={this.editingProduct} 
-                onUpdate={this.setUpdated}
-              />
-            )}
-          />
+          {this.isOwner(currentUser, product) ? (
+            <Route
+              path="/products/:id/edit"
+              render={(props) => (
+                <EditProductForm
+                  {...props}
+                  onEdit={this.editingProduct}
+                  onUpdate={this.setUpdated}
+                />
+              )}
+            />
+          ) : null}
         </div>
       </div>
     );
