@@ -24,3 +24,6 @@ Gems Used:
 -axios
 -bcrypt
 -foreman
+
+TODO:
+-safe navigator

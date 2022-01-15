@@ -1,13 +1,22 @@
 import React from "react";
 import axios from "axios";
+import PropTypes from "prop-types";
+import { Link, Route } from "react-router-dom";
+
+import EditProductForm from "./EditProductFormContainer";
 
 class ProductDetail extends React.Component {
-  state = {
-    product: {},
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      product: {},
+      editing: false,
+    };
+  }
 
   componentDidMount() {
-    const id = this.props.match.params.id;
+    const id = this.props.match && this.props.match.params.id;
 
     axios
       .get(`/api/v1/products/${id}.json`)
@@ -17,8 +26,26 @@ class ProductDetail extends React.Component {
       .catch((error) => console.log(error));
   }
 
+  editingProduct = (value) => {
+    if (value === undefined) {
+      this.setState({ editing: true });
+    } else if (value === "edited") {
+      this.setState({ editing: false });
+    }
+  };
+
+  isOwner = (user, product) => {
+    if (Object.keys(product).length > 0) {
+      return user && user.id === product.user_id;
+    }
+
+    return false;
+  };
+
   render() {
+    const id = this.props.match && this.props.match.params.id;
     const { product } = this.state;
+    const { currentUser } = this.props;
 
     return (
       <div className="container">
@@ -45,22 +72,46 @@ class ProductDetail extends React.Component {
 
             <div className="mb-4">{product.description}</div>
 
-            <div className="float-right btn-edit-del">
-              <a href="#" className="btn btn-outline-danger btn-lg">
-                Delete
-              </a>
-            </div>
+            {this.isOwner(currentUser, product) ? (
+              <>
+                <div className="float-right btn-edit-del">
+                  <Link
+                    to={`/product/${id}`}
+                    className="btn btn-outline-danger btn-lg"
+                  >
+                    Delete
+                  </Link>
+                </div>
 
-            <div className="btn-edit-del">
-              <a href="#" className="btn btn-outline-purple btn-lg">
-                Edit
-              </a>
-            </div>
+                <div className="btn-edit-del">
+                  <Link
+                    to={`/products/${id}/edit`}
+                    className="btn btn-outline-purple btn-lg"
+                  >
+                    Edit
+                  </Link>
+                </div>
+              </>
+            ) : null}
           </div>
+
+          <Route 
+            path="/products/:id/edit" 
+            render={(props) => (
+              <EditProductForm
+                {...props}
+                onEdit={this.editingProduct}
+              />
+            )}
+          />
         </div>
       </div>
     );
   }
 }
+
+ProductDetail.propTypes = {
+  currentUser: PropTypes.object,
+};
 
 export default ProductDetail;
