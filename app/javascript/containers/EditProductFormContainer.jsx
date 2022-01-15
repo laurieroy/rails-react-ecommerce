@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-// import { Redirect } from "react-router-dom";
 import axios from "axios";
 
-import Button from "../components/shared/Button";
 import ErrorMessages from "../components/shared/ErrorMessages";
 import ProductForm from "../components/products/ProductForm";
-import { EMAIL_REGEX, verifyAndSetFieldErrors } from "../shared/helpers";
+import { verifyAndSetFieldErrors } from "../shared/helpers";
 
 class EditProductForm extends Component {
   state = {
@@ -25,14 +23,25 @@ class EditProductForm extends Component {
     if (id) {
       this.getProduct(id);
     }
-  };
+	};
+	
+	componentWillUnmount = () => {
+		const id = this.props.match && this.props.match.params.id
+
+		id && this.props.onEdit("edited")
+		this.props.onUpdate(false)
+
+		if (this.state.serverErrors.length > 0) {
+			this.resetSaved()
+		}
+	}
 
   getProduct = (id) => {
     axios
       .get(`/api/v1/products/${id}.json`)
       .then((resp) => {
-        product = resp.data.product;
-        idx = product.price.search(/\d/);
+        const product = resp.data.product;
+        const idx = product.price.search(/\d/);
         product.price = product.price.slice(idx);
 
         this.setState(
@@ -85,7 +94,35 @@ class EditProductForm extends Component {
 		}
 	};
 	
-  handleProductUpdate = () => {};
+  handleProductUpdate = (data) => {
+		const updatedProduct = {
+			product: {...data}
+		}
+
+		axios.put(`/api/v1/products/${data.id}.json`, updatedProduct)
+			.then(resp => {
+				const { product } = resp.data
+				this.setState({
+					...product, 
+					serverErrors: [],
+					saved: true
+				}, () => {
+					this.props.onUpdate(true)
+					this.props.history.push(`/products/${data.id}`)
+				})
+			})
+			.catch(error => {
+				const upcatedErrors = [
+					...this.state.serverErrors,
+					...error.response.data
+				]
+
+				const errorSet = new Set(upcatedErrors)
+				this.setState({
+					serverErrors: [...errorSet ]
+				})
+			})
+	};
 
   checkErrors = (state, fieldName) => {
     const error = {};
@@ -192,10 +229,8 @@ class EditProductForm extends Component {
 }
 
 EditProductForm.propTypes = {
-  saved: PropTypes.bool.isRequired,
-  serverErrors: PropTypes.array.isRequired,
-  onResetSaved: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default EditProductForm;

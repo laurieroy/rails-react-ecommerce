@@ -12,19 +12,19 @@ class ProductDetail extends React.Component {
     this.state = {
       product: {},
       editing: false,
+      updated: false,
     };
   }
 
   componentDidMount() {
-    const id = this.props.match && this.props.match.params.id;
-
-    axios
-      .get(`/api/v1/products/${id}.json`)
-      .then((response) => {
-        this.setState({ product: response.data.product });
-      })
-      .catch((error) => console.log(error));
+    this.getProduct();
   }
+
+  componentDidUpdate = () => {
+    if (this.state.editing && this.state.updated) {
+      this.getProduct();
+    }
+  };
 
   editingProduct = (value) => {
     if (value === undefined) {
@@ -34,12 +34,27 @@ class ProductDetail extends React.Component {
     }
   };
 
+  getProduct = () => {
+    const id = this.props.match && this.props.match.params.id;
+
+    axios
+      .get(`/api/v1/products/${id}.json`)
+      .then((response) => {
+        this.setState({ product: response.data.product });
+      })
+      .catch((error) => console.log(error.respose));
+  };
+
   isOwner = (user, product) => {
     if (Object.keys(product).length > 0) {
       return user && user.id === product.user_id;
     }
 
     return false;
+  };
+
+  setUpdated = (value) => {
+    this.setState({ updated: value });
   };
 
   render() {
@@ -76,7 +91,7 @@ class ProductDetail extends React.Component {
               <>
                 <div className="float-right btn-edit-del">
                   <Link
-                    to={`/product/${id}`}
+                    to={`/products/${id}`}
                     className="btn btn-outline-danger btn-lg"
                   >
                     Delete
@@ -95,12 +110,13 @@ class ProductDetail extends React.Component {
             ) : null}
           </div>
 
-          <Route 
-            path="/products/:id/edit" 
+          <Route
+            path="/products/:id/edit"
             render={(props) => (
-              <EditProductForm
-                {...props}
-                onEdit={this.editingProduct}
+              <EditProductForm 
+                {...props} 
+                onEdit={this.editingProduct} 
+                onUpdate={this.setUpdated}
               />
             )}
           />
