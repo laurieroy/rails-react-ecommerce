@@ -42,7 +42,10 @@ class ProductDetail extends React.Component {
       .then((response) => {
         this.setState({ product: response.data.product });
       })
-      .catch((error) => console.log(error.respose));
+      .catch((error) => this.props.history.push({
+        pathname: "/",
+        state: { error: error.response.data.error }
+      }));
   };
 
   isOwner = (user, product) => {
@@ -61,6 +64,8 @@ class ProductDetail extends React.Component {
     const id = this.props.match && this.props.match.params.id;
     const { product } = this.state;
     const { currentUser } = this.props;
+
+    console.log(this.props)
 
     return (
       <div className="container">

@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 
+import ErrorMessages from "../components/shared/ErrorMessages";
 import Jumbotron from "../components/products/Jumbotron";
 import Product from "../components/products/Product";
 import NewProductForm from "../components/products/NewProductForm";
@@ -15,6 +16,21 @@ class ProductList extends React.Component {
 
   componentDidMount = () => {
     this.loadProductsFromServer();
+  };
+
+  componentDidUpdate = () => {
+    if (!this.state.flash && this.props.history.location.state) {
+      const flashMsg = this.props.history.location.state.error;
+
+      this.setState(
+        {
+          flash: flashMsg,
+        },
+        () => {
+          this.props.history.replace("/", null);
+        }
+      );
+    }
   };
 
   shouldComponentUpdate = (nextProps, nextState) => {
@@ -86,9 +102,19 @@ class ProductList extends React.Component {
       <Product key={product.id} product={product} />
     ));
 
+    console.log(this.state);
     return (
       <>
         <Jumbotron />
+        {this.state.flash && (
+          <div className="row">
+            <ErrorMessages
+              errors={[this.state.flash]}
+              flash={true}
+              colWidth="col-md-12"
+            />
+          </div>
+        )}
         <div className="container">
           <div className="row">
             <div className="col-md-12 mb-2">
