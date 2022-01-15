@@ -42,10 +42,27 @@ class ProductDetail extends React.Component {
       .then((response) => {
         this.setState({ product: response.data.product });
       })
-      .catch((error) => this.props.history.push({
-        pathname: "/",
-        state: { error: error.response.data.error }
-      }));
+      .catch((error) =>
+        this.props.history.push({
+          pathname: "/",
+          state: { error: error.response.data.error },
+        })
+      );
+  };
+
+  handleDelete = (e) => {
+    e.preventDefault();
+
+    this.handleProductDelete(this.props.match.params.id);
+  };
+
+  handleProductDelete = (id) => {
+    axios
+      .delete(`/api/v1/products/${id}.json`)
+      .then((response) => {
+        this.props.history.push("/");
+      })
+      .catch((error) => console.log(error));
   };
 
   isOwner = (user, product) => {
@@ -65,7 +82,7 @@ class ProductDetail extends React.Component {
     const { product } = this.state;
     const { currentUser } = this.props;
 
-    console.log(this.props)
+    console.log(this.props);
 
     return (
       <div className="container">
@@ -98,6 +115,7 @@ class ProductDetail extends React.Component {
                   <Link
                     to={`/products/${id}`}
                     className="btn btn-outline-danger btn-lg"
+                    onClick={this.handleDelete}
                   >
                     Delete
                   </Link>
