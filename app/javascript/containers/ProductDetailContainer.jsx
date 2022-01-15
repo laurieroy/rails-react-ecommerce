@@ -87,7 +87,7 @@ class ProductDetail extends React.Component {
 
             <div className="mb-4">{product.description}</div>
 
-            {this.isOwner(currentUser, product) ? (
+            {this.isOwner(currentUser, product) && !this.state.editing ? (
               <>
                 <div className="float-right btn-edit-del">
                   <Link
